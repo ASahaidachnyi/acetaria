@@ -36,7 +36,7 @@ services:
       - traefik.enable=true
 
   service-watchtower:
-    image: containrrr/watchtower:1.0.2
+    image: containrrr/watchtower:1.7.1
     container_name: service-watchtower
     restart: always
     volumes:
