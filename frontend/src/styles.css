@@ -170,14 +170,60 @@ a { color: inherit; }
 
 .teamRow { display: inline-flex; gap: 12px; }
 .portraitSm {
-  width: 34px;
-  height: 34px;
+  width: 46px;
+  height: 46px;
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.10);
   object-fit: cover;
 }
 
+.lcIconSm {
+  width: 46px;
+  height: 23px;
+  margin-top: -5px;
+  border-radius: 1px;
+  border: 1px solid rgba(255,255,255,0.10);
+  object-fit: cover;
+}
+
+.eidolonSm {  /*why isn't it used wtf*/
+  text-align: center;
+  margin-top: -22px;
+  margin-bottom: 5px;
+  margin-left: 32px;
+  padding-left: 4px;
+  font-size: 16px;
+  position: relative;
+  display: flex;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  background-color: black;
+  z-index: 19;
+  color: "rgba(255,255,255,1)"
+}
+
+.superimpositionSm { 
+  text-align: center;
+  margin-top: -22px;
+  margin-bottom: 5px;
+  margin-left: 32px;
+  padding-left: 4px;
+  font-size: 16px;
+  position: relative;
+  display: flex;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  background-color: black;
+  z-index: 19;
+  color: "rgba(255,255,255,1)"
+}
+
 .videoCell { display: flex; align-items: center; gap: 10px; }
+
 .thumb {
   width: 48px;
   height: 28px;

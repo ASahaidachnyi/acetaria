@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllChars, getAllCosts, getLatestRuns, getRunsByStageId } from "./api";
+import { getAllChars, getAllCosts, getAllLightcones, getLatestRuns, getRunsByStageId } from "./api";
 
 export function useLatestRunsQuery(limit: number) {
   return useQuery({
@@ -18,6 +18,13 @@ export function useGetAllCharsQuery() {
   return useQuery({
     queryKey: ["hsr", "chars"],
     queryFn: () => getAllChars()
+  });
+}
+
+export function useGetAllLightconesQuery() {
+  return useQuery({
+    queryKey: ["hsr", "lightcones"],
+    queryFn: () => getAllLightcones()
   });
 }
 

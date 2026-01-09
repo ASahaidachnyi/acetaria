@@ -7,7 +7,7 @@ import { ErrorState } from "../../../shared/ui/ErrorState";
 import { EmptyState } from "../../../shared/ui/EmptyState";
 import { formatMetric } from "../../../shared/utils/format";
 import { TeamsSubtable } from "./TeamsSubtable";
-import { useGetAllCharsQuery, useGetAllCostsQuery, useRunsByStageIdQuery } from "../../runs/queries";
+import { useGetAllCharsQuery, useGetAllCostsQuery, useGetAllLightconesQuery, useRunsByStageIdQuery } from "../../runs/queries";
 import { Mode, Run, RunCost } from "../../../shared/api/types";
 import { getCostValueFromRunById } from "../../../shared/utils/utils";
 
@@ -18,6 +18,8 @@ export function LeaderboardTable({ stageId, mode }: { stageId: number, mode: Mod
   const selectedMode = mode;
   
   const chars = useGetAllCharsQuery()
+
+  const lightcones = useGetAllLightconesQuery();
 
   const costs = useGetAllCostsQuery();
 
@@ -205,6 +207,7 @@ export function LeaderboardTable({ stageId, mode }: { stageId: number, mode: Mod
                             entryId={row.char.id.toString()} 
                             runs={row.runs} 
                             chars={chars.data}  
+                            lcs={lightcones.data}
                             ltdCostId={ltdCostId}
                             stdCostId={stdCostId}
                           />

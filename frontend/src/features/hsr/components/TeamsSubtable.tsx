@@ -3,14 +3,15 @@ import { LoadingState } from "../../../shared/ui/LoadingState";
 import { ErrorState } from "../../../shared/ui/ErrorState";
 import { EmptyState } from "../../../shared/ui/EmptyState";
 import { formatMetric, platformLabel, formatDuration } from "../../../shared/utils/format";
-import { Character, Run } from "../../../shared/api/types";
+import { Character, Lightcone, Run } from "../../../shared/api/types";
 import { getCostValueFromRunById } from "../../../shared/utils/utils";
 
-export function TeamsSubtable({ entryId, runs, chars, ltdCostId, stdCostId }: 
+export function TeamsSubtable({ entryId, runs, chars, lcs, ltdCostId, stdCostId }: 
   { 
     entryId: string, 
     runs: Run[] | undefined, 
     chars: Character[] | undefined,
+    lcs: Lightcone[] | undefined,
     ltdCostId: number | undefined,
     stdCostId: number | undefined,
   }) {
@@ -38,33 +39,27 @@ export function TeamsSubtable({ entryId, runs, chars, ltdCostId, stdCostId }:
               <tr key={r.id} className="tr">
                 <td className="td">
                   <div className="teamRow">
-                    {r.team.units.map((m) => {
-                      const char = chars?.find(c => c.id === m.char_id);
+                    {r.team.units.map((unit) => {
+                      // console.log(r.team.units);
+                      const char = chars?.find(c => c.id === unit.char_id);
+                      const lc = lcs?.find(l => l.id === unit.lc_id);
                       return (
                         <div >
-                          <img key={m.id}
+                          <img key={unit.id}
                             className="portraitSm"
                             src={char?.icon_url}
-                            alt={char?.name ?? m.char_id.toString()} />
-                          <p id={m.id.toString() + "_eidolon"} 
-                            className="muted small" 
-                            style={
-                              {
-                                textAlign: "center", 
-                                marginTop: "-22px",
-                                marginLeft: "24px",
-                                paddingLeft: "4px",
-                                fontSize: "16px",
-                                position: "absolute",
-                                display: "flex",
-                                borderRadius: "50%",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                fontWeight: "600",
-                                backgroundColor: "black",
-                                zIndex: 19,
-                                color: "rgba(255,255,255,1)",}}>
-                                  {m.char_eidolon}
+                            alt={char?.name ?? unit.char_id.toString()} />
+                          <p id={unit.id.toString() + "_eidolon"} 
+                            className="eidolonSm small" >
+                                  {unit.char_eidolon}
+                          </p>
+                          <img key={unit.lc_id}
+                            className="lcIconSm"
+                            src={lc?.icon_url}
+                            alt={lc?.name ?? unit.lc_id.toString()} />
+                          <p id={unit.id.toString() + "_superimposition"} 
+                            className="superimpositionSm" >
+                                  {unit.lc_superimposition}
                           </p>
                         </div>
                       );

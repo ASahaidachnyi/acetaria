@@ -78,7 +78,7 @@ class GameMode(SQLModel, table=True):
   primary_score_kind: ResultKindEnum | None = Field(default=None, nullable=False) #in future it may be more than 2 and an additional relation will be needed
   primary_score_reverse_sorting: bool | None = Field(default=None, nullable=False)
   secondary_score_kind: ResultKindEnum | None = Field(default=None, nullable=True)
-  secondary_score_reverse_sorting: bool | None = Field(default=None, nullable=False)
+  secondary_score_reverse_sorting: bool | None = Field(default=None, nullable=True)
 
   game_mode_entries: list["GameModeEntry"] = Relationship(back_populates="game_mode")
 
