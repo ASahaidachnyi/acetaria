@@ -1,0 +1,78 @@
+name: acetaria
+
+services:
+
+  service-postgres:
+    image: postgres:18
+    container_name: service-postgres
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    volumes:
+      - ./conf/postgresql.conf:/etc/postgresql.conf
+      - ./data/postgres:/var/lib/postgresql
+    env_file:
+      - ./conf/env.postgres
+
+  service-traefik:
+    image: traefik
+    container_name: service-traefik
+    restart: always
+    ports:
+      - 80:80
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - "--accesslog=true"
+      - "--accesslog.fields.headers.names.User-Agent=keep"
+      - "--log.format=common"
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    labels:
+      - traefik.enable=true
+
+  service-watchtower:
+    image: containrrr/watchtower:1.7.1
+    container_name: service-watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .docker/config.json:/config.json
+    command: --cleanup --interval 30
+
+  backend:
+    image: ghcr.io/isstigma/acetaria-backend:latest
+    container_name: acetaria_backend
+    restart: unless-stopped
+    env_file:
+      - ./conf/env.backend
+    environment:
+      - CORS_ORIGINS=*
+      - ACETARIA_AUTO_SEED=0
+    depends_on:
+      - service-postgres
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.backend.rule=Host(`acetaria-api.yznts.cc`)
+      - traefik.http.services.backend.loadbalancer.server.port=8000
+
+  frontend:
+    image: ghcr.io/isstigma/acetaria-frontend:latest
+    container_name: acetaria_frontend
+    restart: unless-stopped
+    env_file:
+      - ./conf/env.frontend
+    environment:
+      - VITE_API_BASE_URL=http://backend:8000/api/v1
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frontend.rule=Host(`acetaria.yznts.cc`)
+      - traefik.http.services.frontend.loadbalancer.server.port=5173
