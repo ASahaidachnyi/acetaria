@@ -42,8 +42,8 @@ python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 cp .env.example .env
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-python -m app.seed
+python -m app web  # or "uvicorn app:app --reload --host 0.0.0.0 --port 8000"
+python -m app seed static
 ```
 
 ### Frontend
@@ -98,4 +98,3 @@ Admin (dummy success responses):
 - PATCH `/api/v1/admin/leaderboard-entries/{entryId}`
 - POST `/api/v1/admin/leaderboard-entries/{entryId}/teams`
 - PATCH `/api/v1/admin/team-entries/{teamEntryId}`
-
